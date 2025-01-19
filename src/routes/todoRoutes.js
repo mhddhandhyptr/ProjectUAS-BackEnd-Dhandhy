@@ -5,14 +5,20 @@ const authMiddleware = require('../middlewares/authMiddleware');
 const router = express.Router();
 
 /**
+ * @typedef {object} PrayerRequest
+ * @property {string} name.required - Prayer name
+ * @property {string} time.required - Prayer time
+ */
+
+/**
  * @typedef {object} TodoRequest
- * @property {string} title.required - Title
- * @property {string} description - Description
+ * @property {string} day.required - Day of the week
+ * @property {array<PrayerRequest>} prayers.required - Array of prayers
  */
 
 /**
  * POST /api/todos
- * @summary Create a new todo
+ * @summary Create a new prayer schedule
  * @tags Todos
  * @param {TodoRequest} request.body.required - Todo info
  * @return {object} 201 - Todo created successfully

@@ -2,13 +2,13 @@ const Todo = require('../models/todo');
 
 class TodoController {
     async createTodo(req, res) {
-        const { title, description } = req.body;
+        const { day, prayers } = req.body;
         const userId = req.user.id;
 
         try {
             const newTodo = new Todo({
-                title,
-                description,
+                day,
+                prayers,
                 userId,
             });
             await newTodo.save();
@@ -29,12 +29,7 @@ class TodoController {
             const todos = await Todo.find({ userId });
             res.status(200).json({ data: todos });
         } catch (error) {
-            if (error.name === 'ValidationError') {
-                const messages = Object.values(error.errors).map((val) => val.message);
-                return res.status(400).json({ message: 'Validation error', error: messages });
-            } else {
-                res.status(500).json({ message: 'Server error', error: error.message });
-            }
+            res.status(500).json({ message: 'Server error', error: error.message });
         }
     }
 
@@ -47,23 +42,18 @@ class TodoController {
             }
             res.status(200).json({data: todo});
         } catch (error) {
-            if (error.name === 'ValidationError') {
-                const messages = Object.values(error.errors).map((val) => val.message);
-                return res.status(400).json({ message: 'Validation error', error: messages });
-            } else {
-                res.status(500).json({ message: 'Server error', error: error.message });
-            }
+            res.status(500).json({ message: 'Server error', error: error.message });
         }
     }
 
     async updateTodoById(req, res) {
         const { id } = req.params;
-        const { title, description, completed } = req.body;
+        const { day, prayers } = req.body;
 
         try {
             const updatedTodo = await Todo.findByIdAndUpdate(
                 id,
-                { title, description, completed },
+                { day, prayers },
                 { new: true }
             );
             if (!updatedTodo) {

@@ -1,24 +1,29 @@
 const mongoose = require('mongoose');
 
+const prayerSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true
+    },
+    time: {
+        type: String,
+        required: true
+    }
+});
+
 const todoSchema = new mongoose.Schema({
-    title: {
+    day: {
         type: String,
-        required: true,
+        required: true
     },
-    description: {
-        type: String,
-    },
-    completed: {
-        type: Boolean,
-        default: false,
-    },
+    prayers: [prayerSchema],
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true,
-    },
+        required: true
+    }
 }, {
-    timestamps: true,
+    timestamps: true
 });
 
 module.exports = mongoose.model('Todo', todoSchema);
